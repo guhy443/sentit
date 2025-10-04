@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SentientAGI Early AGI Quiz</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #1a1a2e, #162447);
+    color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  h1 { color: #e94560; margin-bottom: 20px; }
+  .quiz-container {
+    max-width: 700px;
+    width: 100%;
+    background: #0f3460;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #903749;
+  }
+  .question { margin-bottom: 15px; font-weight: bold; font-size: 18px; }
+  .options button {
+    display: block;
+    margin: 8px 0;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #53354a;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+  .options button:hover { background-color: #903749; }
+  .options button.correct { background-color: #28a745 !important; }
+  .options button.wrong { background-color: #dc3545 !important; }
+  .feedback { margin-top: 10px; font-size: 16px; font-weight: bold; }
+  .result { margin-top: 20px; font-size: 20px; font-weight: bold; color: #ffd700; }
+</style>
+</head>
+<body>
+<h1>SentientAGI Early AGI Quiz</h1>
+<div class="quiz-container" id="quiz-container"></div>
+<div class="result" id="result"></div>
+
+<script>
+const quizData = [
+  { question: "What is the main goal of SentientAGI?", options: ["Only to create NFTs", "To build decentralized AGI and privacy-focused systems", "Just a gaming platform", "To send trading signals"], answer: 1 },
+  { question: "What is the first step to get the Early AGI Role on Discord?", options: ["Buy an NFT", "Join the Discord server", "Create a Galxe account", "Submit a coding project"], answer: 1 },
+  { question: "What are the main role categories in SentientAGI?", options: ["Developer, Investor, Moderator", "Artist, Builder (Developer), Educator, Helper", "Teacher, Student, Manager", "Creator, Trader, Collector"], answer: 1 },
+  { question: "To be eligible for the Early AGI Role, which level must you reach?", options: ["Level 1", "Level 2", "Level 3", "Level 6"], answer: 2 },
+  { question: "How is contribution measured on Discord?", options: ["Just time spent online", "Activity and contributions (messages, content, support) + reactions", "NFT ownership", "Galxe profile views"], answer: 1 },
+  { question: "What benefits do you get after obtaining the Early AGI Role?", options: ["Only emoji reactions", "Exclusive channel access, early information, and networking opportunities", "No NFT", "Just Galxe quest points"], answer: 1 }
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+const quizContainer = document.getElementById("quiz-container");
+const resultContainer = document.getElementById("result");
+
+function loadQuestion() {
+  const q = quizData[currentQuestion];
+  quizContainer.innerHTML = `
+    <div class="question">${currentQuestion + 1}. ${q.question}</div>
+    <div class="options">
+      ${q.options.map((opt, i) => `<button onclick="selectAnswer(this, ${i})">${opt}</button>`).join('')}
+    </div>
+    <div class="feedback" id="feedback"></div>
+  `;
+}
+
+function selectAnswer(btn, index) {
+  const correct = quizData[currentQuestion].answer;
+  const buttons = document.querySelectorAll(".options button");
+  
+  buttons.forEach(b => b.disabled = true);
+  
+  const feedback = document.getElementById("feedback");
+
+  if (index === correct) {
+    btn.classList.add("correct");
+    feedback.textContent = "✅ Correct!";
+    score++;
+  } else {
+    btn.classList.add("wrong");
+    buttons[correct].classList.add("correct");
+    feedback.textContent = "❌ Wrong!";
+  }
+
+  setTimeout(() => {
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+      loadQuestion();
+    } else {
+      showResult();
+    }
+  }, 1000);
+}
+
+function showResult() {
+  quizContainer.innerHTML = '';
+  resultContainer.innerHTML = `You scored ${score} out of ${quizData.length}! ${score === quizData.length ? '🎉 Perfect Score!' : ''}`;
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
